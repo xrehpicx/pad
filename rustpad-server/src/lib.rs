@@ -89,10 +89,10 @@ impl Default for ServerConfig {
 
 /// A combined filter handling all server routes.
 pub fn server(config: ServerConfig) -> BoxedFilter<(impl Reply,)> {
-    warp::path("api")
-        .and(backend(config))
-        .or(frontend())
-        .boxed()
+    let api = warp::get().and(backend(config.clone())).or(frontend());
+
+    // let controller = warp::path("a").and(backend_client(config.clone()));
+    api.boxed()
 }
 
 /// Construct routes for static files from React.
@@ -110,12 +110,16 @@ fn backend(config: ServerConfig) -> BoxedFilter<(impl Reply,)> {
 
     let state_filter = warp::any().map(move || state.clone());
 
-    let socket = warp::path!("socket" / String)
+    let socket = warp::path!("api" / "socket" / String)
         .and(warp::ws())
         .and(state_filter.clone())
         .and_then(socket_handler);
 
-    let text = warp::path!("text" / String)
+    let text = warp::path!("api" / "text" / String)
+        .and(state_filter.clone())
+        .and_then(text_handler);
+
+    let plain_text = warp::path!("s" / String)
         .and(state_filter.clone())
         .and_then(text_handler);
 
@@ -128,7 +132,7 @@ fn backend(config: ServerConfig) -> BoxedFilter<(impl Reply,)> {
         .and(state_filter)
         .and_then(stats_handler);
 
-    socket.or(text).or(stats).boxed()
+    socket.or(text).or(stats).or(plain_text).boxed()
 }
 
 /// Handler for the `/api/socket/{id}` endpoint.

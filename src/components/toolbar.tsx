@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import {
   Menubar,
   MenubarContent,
@@ -12,25 +13,34 @@ import {
 } from "./ui/menu";
 
 export function ToolBar() {
+  const toast = useToast();
+  async function handleCopy(text?: string) {
+    await navigator.clipboard.writeText(`${text || window.location.href}`);
+    toast({
+      title: "Copied!",
+      description: "Link copied to clipboard",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
   return (
     <Menubar>
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>
+          <MenubarItem onClick={() => window.open(window.location.origin)}>
             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
           </MenubarItem>
-          <MenubarItem>
-            New Window <MenubarShortcut>⌘N</MenubarShortcut>
-          </MenubarItem>
-          <MenubarItem disabled>New Incognito Window</MenubarItem>
+          {/* <MenubarItem disabled>New Incognito Window</MenubarItem> */}
           <MenubarSeparator />
           <MenubarSub>
             <MenubarSubTrigger>Share</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>Email link</MenubarItem>
-              <MenubarItem>Messages</MenubarItem>
-              <MenubarItem>Notes</MenubarItem>
+              <MenubarItem onClick={() => handleCopy()}>
+                Collaboration link
+              </MenubarItem>
+              <MenubarItem onClick={() => handleCopy()}>Raw link</MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
