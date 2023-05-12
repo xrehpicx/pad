@@ -139,7 +139,7 @@ function App() {
         className="flex relative justify-between items-center gap-1 bg-black/20 border-b border-indigo-400/20"
       >
         <div className="relative z-10">
-          <ToolBar />
+          <ToolBar editor={editor} />
         </div>
         <Text>Rpad</Text>
         <div></div>

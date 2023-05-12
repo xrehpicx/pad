@@ -168,9 +168,9 @@ async fn text_handler(id: String, state: ServerState) -> Result<impl Reply, Reje
                 db.load(&id)
                     .await
                     .map(|document| document.text)
-                    .unwrap_or_default()
+                    .unwrap_or_else(|_| "".to_string())
             } else {
-                String::new()
+                "nothing found".to_string()
             }
         }
     })

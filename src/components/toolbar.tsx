@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/react";
+import { editor } from "monaco-editor";
 import {
   Menubar,
   MenubarContent,
@@ -12,7 +13,7 @@ import {
   MenubarTrigger,
 } from "./ui/menu";
 
-export function ToolBar() {
+export function ToolBar({ editor }: { editor?: editor.IStandaloneCodeEditor }) {
   const toast = useToast();
   async function handleCopy(text?: string) {
     await navigator.clipboard.writeText(`${text || window.location.href}`);
@@ -40,12 +41,28 @@ export function ToolBar() {
               <MenubarItem onClick={() => handleCopy()}>
                 Collaboration link
               </MenubarItem>
-              <MenubarItem onClick={() => handleCopy()}>Raw link</MenubarItem>
+              <MenubarItem
+                onClick={() =>
+                  handleCopy(
+                    `${window.location.origin}/s/${window.location.hash.replace(
+                      "#",
+                      ""
+                    )}`
+                  )
+                }
+              >
+                Raw link
+              </MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
-          <MenubarItem>
-            Print... <MenubarShortcut>⌘P</MenubarShortcut>
+          <MenubarItem
+            onClick={() => {
+              editor?.setValue("");
+              setTimeout(() => window.close());
+            }}
+          >
+            Destroy <MenubarShortcut>⌘D</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
