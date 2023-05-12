@@ -51,7 +51,7 @@ function User({
           p={2}
           rounded="md"
           _hover={{
-            bgColor: darkMode ? "#464647" : "gray.200",
+            bgColor: darkMode ? "gray.800" : "gray.200",
             cursor: "pointer",
           }}
           onClick={() => isMe && onOpen()}
@@ -64,12 +64,12 @@ function User({
         </HStack>
       </PopoverTrigger>
       <PopoverContent
-        bgColor={darkMode ? "#333333" : "white"}
-        borderColor={darkMode ? "#464647" : "gray.200"}
+        bgColor={darkMode ? "gray.800" : "white"}
+        borderColor={darkMode ? "gray.600" : "gray.200"}
       >
         <PopoverHeader
           fontWeight="semibold"
-          borderColor={darkMode ? "#464647" : "gray.200"}
+          borderColor={darkMode ? "gray.800" : "gray.200"}
         >
           Update Info
         </PopoverHeader>
@@ -96,7 +96,7 @@ function User({
         <PopoverFooter
           d="flex"
           justifyContent="flex-end"
-          borderColor={darkMode ? "#464647" : "gray.200"}
+          borderColor={darkMode ? "gray.800" : "gray.200"}
         >
           <ButtonGroup size="sm">
             <Button colorScheme="blue" onClick={onClose}>

@@ -8,7 +8,12 @@ const version =
 
 function Footer() {
   return (
-    <Flex h="22px" bgColor="#0071c3" color="white">
+    <Flex
+      justifyContent="space-between"
+      h="22px"
+      bgColor="#0071c3"
+      color="white"
+    >
       <Flex
         h="100%"
         bgColor="#09835c"
@@ -19,6 +24,9 @@ function Footer() {
       >
         <Icon as={VscRemote} mb={-0.5} mr={1} />
         <Text fontSize="xs">Rustpad ({version})</Text>
+      </Flex>
+      <Flex h="100%" mr={2} fontSize="sm" align="center">
+        <Text id="my-statusbar" fontSize="xs"></Text>
       </Flex>
     </Flex>
   );
