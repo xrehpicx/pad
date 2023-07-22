@@ -25,5 +25,5 @@ RUN npm run build
 FROM scratch
 COPY --from=frontend /usr/src/app/dist dist
 COPY --from=backend /home/rust/src/target/release/rustpad-server .
-USER 1000:1000
+EXPOSE 3030
 CMD [ "./rustpad-server" ]
